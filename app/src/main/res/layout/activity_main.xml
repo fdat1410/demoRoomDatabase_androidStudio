@@ -35,13 +35,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:verticalScrollbarPosition="defaultPosition"
-        app:itemBackground="@color/primary"
-        app:itemIconTint="@color/white"
-        app:itemTextColor="@color/white"
+        app:itemBackground="@color/nav_bg_color"
+        app:itemIconTint="@color/bottom_nav_color"
+        app:itemTextColor="@color/bottom_nav_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_nav"
-        tools:ignore="MissingConstraints" />
+        app:menu="@menu/bottom_nav"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

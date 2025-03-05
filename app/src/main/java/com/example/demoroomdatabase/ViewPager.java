@@ -1,76 +1,52 @@
 package com.example.demoroomdatabase;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.demoroomdatabase.adapter.UserAdapter;
-import com.example.demoroomdatabase.entity.User;
-import com.example.demoroomdatabase.respository.UserRespository;
+import com.example.demoroomdatabase.fragment.ViewPagerAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.List;
-
-public class MainActivity extends AppCompatActivity {
-
-    RecyclerView recyclerView;
-    Button btnAdd;
-    UserRespository userRespository;
+public class ViewPager extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
-
-    @SuppressLint({"MissingInflatedId", "NonConstantResourceId"})
+    ViewPager2 viewPager;
+    ViewPagerAdapter viewPagerAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_view_pager);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        userRespository = new UserRespository(this);
-        recyclerView = findViewById(R.id.recyclerView);
-        btnAdd = findViewById(R.id.btnAdd);
-        List<User> users =userRespository.getAll();
-        UserAdapter userAdapter = new UserAdapter(this,users);
-        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        recyclerView.addItemDecoration(itemDecoration);
-        recyclerView.setAdapter(userAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, AddUserActivity.class);
-                startActivity(intent);
-            }
-        });
         bottomNavigationView = findViewById(R.id.bottom_nav);
+        viewPager = findViewById(R.id.view_pager);
+        viewPagerAdapter = new ViewPagerAdapter(this);
+        viewPager.setAdapter(viewPagerAdapter);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = null;
             if (item.getItemId() == R.id.action_home) {
                 Toast.makeText(this, "Home", Toast.LENGTH_SHORT).show();
+                viewPager.setCurrentItem(0);
                 //selectedFragment = new HomeFragment();
             } else if (item.getItemId() == R.id.action_fav) {
                 Toast.makeText(this, "Favourite", Toast.LENGTH_SHORT).show();
+                viewPager.setCurrentItem(1);
                 //selectedFragment = new FavouriteFragment();
             } else if (item.getItemId() == R.id.action_profile) {
                 Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show();
+                viewPager.setCurrentItem(2);
                 //selectedFragment = new ProfileFragment();
             }
             return true;
